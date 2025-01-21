@@ -23,11 +23,8 @@ const Chatbot: React.FC = () => {
     logoBottomPosition: '16'
   });
 
-  const currentUrl = window.location.href;
-
-  const urlSegments = currentUrl.split('/');
-  const userID: string = urlSegments[urlSegments.length - 1];
-  const apiKey: string = urlSegments[urlSegments.length - 2];
+  const userID: string = window.userId;
+  const apiKey: string = window.apiKey;
 
   useEffect(() => {
     if (chatContainerRef.current) {
