@@ -27,7 +27,7 @@ const Chatbot: React.FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const userID: any = urlParams.get('userId');
   const apiKey: any = urlParams.get('apiKey');
-  console.log(apiKey, userID);
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -67,7 +67,7 @@ const Chatbot: React.FC = () => {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement> | FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     if (message.trim() === '') return;
 
@@ -109,6 +109,16 @@ const Chatbot: React.FC = () => {
       ]);
     } finally {
       setIsBotReplying(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const form = e.currentTarget.closest('form');
+      if (form) {
+        form.requestSubmit();
+      }
     }
   };
 
@@ -249,15 +259,7 @@ const Chatbot: React.FC = () => {
                   name="message"
                   value={message}
                   onChange={handleMessageChange}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      handleSubmit({
-                        ...e,
-                        currentTarget: e.currentTarget.closest('form') as HTMLFormElement,
-                        target: e.currentTarget.closest('form') as HTMLFormElement,
-                      } as FormEvent<HTMLFormElement>);
-                    }
-                  }}
+                  onKeyDown={handleKeyDown}
                   maxLength={8000}
                   rows={1}
                   placeholder="Message..."
