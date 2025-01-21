@@ -55,12 +55,13 @@ const Chatbot: React.FC = () => {
           }
         } catch (error) {
           console.error("Error fetching chat history:", error);
+        } finally {
+          setLoading(false);
         }
-      };
-
+      }
       fetchChatHistory();
     }
-    setLoading(false);
+
   }, []);
 
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
