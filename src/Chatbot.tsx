@@ -22,17 +22,18 @@ const Chatbot: React.FC = () => {
     logoPosition: 'bottom-left',
     logoBottomPosition: '16'
   });
-  console.log("hjkl")
-  const userID: string = window.userId;
-  const apiKey: string = window.apiKey;
-  console.log(userID, apiKey)
+
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const userID: any = urlParams.get('userId');
+  const apiKey: any = urlParams.get('apiKey');
+  console.log(apiKey, userID);
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
-  console.log("hjkl")
   useEffect(() => {
     setLoading(true);
     if (userID && apiKey) {
