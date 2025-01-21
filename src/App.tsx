@@ -23,11 +23,15 @@ function App() {
     desc: "",
     headerAlign: "justify-center",
     bgColor: "#fff",
-    innerButtonColor: "#ff992c",
-    outerButtonColor: "#ff992c",
-    userChatBg: "#d1fae5",
-    botChatBg: "#f1f0f0",
+    innerButtonColor: "",
+    outerButtonColor: "",
+    userChatBg: "",
+    botChatBg: "",
+    imgUrl: '',
+    logoPosition: 'bottom-left',
+    logoBottomPosition: '16'
   });
+
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [isBotReplying, setIsBotReplying] = useState(false);
@@ -43,8 +47,8 @@ function App() {
   }, [messages, show]);
 
   useEffect(() => {
-    // const userID: string = '1234';
-    // const apiKey: string = 'aea65f83-62fd-4cc4-8758-eb7d9f50e64c';
+    const userID: string = '1234';
+    const apiKey: string = '315fc257-a083-44ce-805b-28aa36f55c1e';
     setLoading(true);
     if (userID && apiKey) {
       const fetchChatHistory = async () => {
@@ -137,26 +141,24 @@ function App() {
   };
 
   return (
-    <>
+    <div className="arivu-ml-4">
       {!loading && (
         <>
           {show && (
-            <div className="relative">
+            <div className="arivu-relative ">
               <div
-                className={`fixed bottom-24 right-4 w-[350px] lg:w-[500px] xl:w-[33vw] h-[80vh]  lg:h-[80vh] xl:h-[85vh] bg-white bg-[${
-                  theme.bgColor
-                }] p-4 rounded-lg border border-[#e5e7eb] shadow-2xl transform transition-all duration-500 ease-in-out ${
-                  show
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-[100%]"
-                }`}
-                style={{ backgroundColor: theme.bgColor }}
+                className={`arivu-fixed   arivu-w-[350px] lg:arivu-w-[500px] xl:arivu-w-[33vw] arivu-h-[80vh]  lg:arivu-h-[80vh] xl:arivu-h-[85vh] arivu-bg-white arivu-bg-[${theme.bgColor
+                  }] arivu-p-4 arivu-rounded-lg arivu-border arivu-border-[#e5e7eb] arivu-shadow-2xl arivu-transform arivu-transition-all arivu-duration-500 arivu-ease-in-out ${show
+                    ? "arivu-opacity-100 arivu-translate-y-0"
+                    : "arivu-opacity-0 arivu-translate-y-[100%]"
+                  }`}
+                style={{ backgroundColor: theme.bgColor, [theme.logoPosition === 'bottom-left' ? 'arivu-left' : 'arivu-right']: '16px', bottom: `${parseInt(theme.logoBottomPosition) + 72}px` }}
               >
                 <div
-                  className={`flex flex-col ${theme.headerAlign} items-center space-y-1.5 pb-4`}
+                  className={`arivu-flex arivu-flex-col ${theme.headerAlign} arivu-items-center arivu-space-y-1.5 arivu-pb-4`}
                 >
                   <h2
-                    className={`font-bold ${theme.fontSize} text-[${theme.fontColor}]`}
+                    className={`arivu-font-bold`}
                     style={{
                       fontSize: theme.fontSize,
                       color: theme.fontColor,
@@ -165,25 +167,24 @@ function App() {
                     {theme.name}
                   </h2>
                   {theme.desc && theme.desc !== "" && (
-                    <p className="text-sm text-[#6b7280]">{theme.desc}</p>
+                    <p className="arivu-text-sm arivu-text-[#6b7280]">{theme.desc}</p>
                   )}
                 </div>
                 <div
                   ref={chatContainerRef}
-                  className="overflow-y-auto flex-1 mb-12 "
+                  className="arivu-overflow-y-auto arivu-flex-1 arivu-mb-12 "
                   style={{ maxHeight: "calc(80vh - 150px)" }}
                 >
                   {messages.map((message, index) => (
                     <div
-                      className={`flex flex-col gap-3 my-4 text-sm ${
-                        message.user ? "justify-end" : "justify-start"
-                      }`}
+                      className={`arivu-flex arivu-flex-col arivu-gap-3 arivu-my-4 arivu-text-sm ${message.user ? "arivu-justify-end" : "arivu-justify-start"
+                        }`}
                       key={index}
                     >
                       {message.user && (
-                        <div className="flex justify-end pr-4">
+                        <div className="arivu-flex arivu-justify-end arivu-pr-4">
                           <p
-                            className={`leading-relaxed max-w-[80%]  text-right bg-[${theme.userChatBg}] text-black rounded-lg p-3`}
+                            className={`arivu-leading-relaxed arivu-max-w-[80%]  arivu-text-right arivu-bg-[${theme.userChatBg}] arivu-text-black arivu-rounded-lg arivu-p-3`}
                             style={{ backgroundColor: theme.userChatBg }}
                           >
                             {message.user}
@@ -191,9 +192,9 @@ function App() {
                         </div>
                       )}
                       {(message.bot || isBotReplying) && (
-                        <div className="flex justify-start gap-2">
-                          <span className="relative flex shrink-0 overflow-hidden rounded-full w-8 h-8">
-                            <div className="rounded-full bg-gray-100 border p-1">
+                        <div className="arivu-flex arivu-justify-start arivu-gap-2">
+                          <span className="arivu-relative arivu-flex arivu-shrink-0 arivu-overflow-hidden arivu-rounded-full arivu-w-8 arivu-h-8">
+                            <div className="arivu-rounded-full arivu-bg-gray-100 arivu-border arivu-p-1">
                               <svg
                                 stroke="none"
                                 fill="black"
@@ -213,14 +214,14 @@ function App() {
                             </div>
                           </span>
                           <p
-                            className={`leading-relaxed max-w-[80%] text-left bg-[${theme.botChatBg}] text-black rounded-lg p-3`}
+                            className={`arivu-leading-relaxed arivu-max-w-[80%] arivu-text-left arivu-bg-[${theme.botChatBg}] arivu-text-black arivu-rounded-lg arivu-p-3`}
                             style={{ backgroundColor: theme.botChatBg }}
                           >
                             {isBotReplying && message.bot === "" ? (
-                              <div className="flex space-x-1 justify-center items-center">
-                                <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                                <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                                <div className="h-2 w-2 bg-black rounded-full animate-bounce"></div>
+                              <div className="arivu-flex arivu-space-x-1 arivu-justify-center arivu-items-center">
+                                <div className="arivu-h-2 arivu-w-2 arivu-bg-black arivu-rounded-full arivu-animate-bounce [arivu-animation-delay:-0.3s]"></div>
+                                <div className="arivu-h-2 arivu-w-2 arivu-bg-black arivu-rounded-full arivu-animate-bounce [arivu-animation-delay:-0.15s]"></div>
+                                <div className="arivu-h-2 arivu-w-2 arivu-bg-black arivu-rounded-full arivu-animate-bounce"></div>
                               </div>
                             ) : (
                               message.bot
@@ -245,9 +246,9 @@ function App() {
                     </div>
                   ))}
                 </div>
-                <div className="absolute bottom-4 left-4 right-4 bg-white pt-2">
+                <div className="arivu-absolute arivu-bottom-4 arivu-left-4 arivu-right-4 arivu-bg-white arivu-pt-2">
                   <form
-                    className="flex items-center space-x-2"
+                    className="arivu-flex arivu-items-center arivu-space-x-2"
                     onSubmit={(e) => {
                       e.preventDefault();
                       const userMessage = (e.target as HTMLFormElement).message
@@ -261,11 +262,11 @@ function App() {
                     <input
                       name="message"
                       disabled={isBotReplying}
-                      className="flex h-10 w-full rounded-md px-3 text-sm border-2 placeholder-[#6b7280] focus:outline-none text-[#030712]"
+                      className="arivu-flex arivu-h-10 arivu-w-full arivu-rounded-md arivu-px-3 arivu-text-sm arivu-border-2 arivu-placeholder-[#6b7280] arivu-focus:outline-none arivu-text-[#030712]"
                       placeholder="Enter your message..."
                     />
                     <button
-                      className={`inline-flex items-center justify-center rounded-full text-sm font-medium text-[#f9fafb] bg-[${theme.innerButtonColor}] hover:bg-[#111827E6] h-12 w-14 pl-1`}
+                      className={`arivu-inline-flex arivu-items-center arivu-justify-center arivu-rounded-full arivu-text-sm arivu-font-medium arivu-text-[#f9fafb] arivu-hover:bg-[#111827E6] arivu-h-12 arivu-w-14 arivu-pl-1`}
                       type="submit"
                       style={{ backgroundColor: theme.innerButtonColor }}
                       disabled={isBotReplying}
@@ -294,18 +295,18 @@ function App() {
 
           {notification !== "" && !show && (
             <div
-              className={`fixed bottom-24 transform transition-all ease-out duration-500 ${
-                notification ? "translate-x-0 right-4" : "translate-x-full"
-              } flex items-center max-w-[340px] md:max-w-xl mx-auto p-6 rounded-lg bg-white shadow-lg`}
+              className={`arivu-fixed arivu-transform arivu-transition-all arivu-ease-out arivu-duration-500 ${notification ? "arivu-translate-x-0 " : "arivu-translate-x-full"
+                } arivu-flex arivu-items-center arivu-max-w-[340px] md:arivu-max-w-xl arivu-mx-auto arivu-p-6 arivu-rounded-lg arivu-bg-white arivu-shadow-lg`}
+              style={{ [theme.logoPosition === 'bottom-left' ? 'arivu-left' : 'arivu-right']: '16px', bottom: `${parseInt(theme.logoBottomPosition) + 72}px` }}
             >
-              <div className="relative">
-                <div className="chat-notification-content ml-2 pr-6">
-                  <p className="chat-notification-message text-gray-600 text-base leading-relaxed">
+              <div className="arivu-relative">
+                <div className="arivu-chat-notification-content arivu-ml-2 arivu-pr-6">
+                  <p className="arivu-chat-notification-message arivu-text-gray-600 arivu-text-base arivu-arivu-leading-relaxed">
                     {notification}
                   </p>
                 </div>
                 <button
-                  className="absolute top-2 right-0 text-gray-500 hover:text-gray-700"
+                  className="arivu-absolute arivu-top-2 arivu-right-0 arivu-text-gray-500 hover:arivu-text-gray-700"
                   onClick={() => setNotification("")}
                 >
                   <svg
@@ -329,9 +330,10 @@ function App() {
 
           <button
             onClick={toggleChatVisibility}
-            className={`fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none bg-[${theme.outerButtonColor}] disabled:opacity-50  rounded-full w-16 h-16  m-0 cursor-pointer p-0 normal-case leading-5 hover:text-gray-900 transition-all duration-300`}
+            className={`arivu-fixed  arivu-inline-flex arivu-items-center arivu-justify-center arivu-text-sm arivu-font-medium disabled:arivu-pointer-events-none arivu-bg-[${theme.outerButtonColor}] disabled:arivu-opacity-50  arivu-rounded-full arivu-w-16 arivu-h-16  arivu-m-0 arivu-cursor-pointer arivu-p-0 arivu-normal-case arivu-leading-5 hover:arivu-text-gray-900 arivu-transition-all arivu-duration-300`}
             type="button"
-            style={{ backgroundColor: theme.outerButtonColor }}
+
+            style={{ backgroundColor: theme.outerButtonColor, [theme.logoPosition === 'bottom-left' ? 'arivu-left' : 'arivu-right']: '16px', bottom: `${parseInt(theme.logoBottomPosition)}px` }}
           >
             {show ? (
               <svg
@@ -349,54 +351,37 @@ function App() {
                 />
               </svg>
             ) : (
-              // <svg
-              //   xmlns="http://www.w3.org/2000/svg"
-              //   width="30"
-              //   height="40"
-              //   viewBox="0 0 24 24"
-              //   fill="none"
-              //   stroke="currentColor"
-              //   strokeWidth="2"
-              //   strokeLinecap="round"
-              //   strokeLinejoin="round"
-              //   className="text-white block border-gray-200 align-middle"
-              // >
-              //   <path
-              //     d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"
-              //     className="border-gray-200"
-              //   ></path>
-              // </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <path
-                  d="M20 80 H35 V70"
-                  stroke="#fff"
-                  stroke-width="8"
-                  fill="none"
-                />
-                <path
-                  d="M80 80 H65 V70"
-                  stroke="#fff"
-                  stroke-width="8"
-                  fill="none"
-                />
 
-                <path
-                  d="M35 70 
-       C25 70, 15 60, 15 45 
-       C15 25, 30 15, 50 15
-       C70 15, 85 25, 85 45
-       C85 60, 75 70, 65 70"
-                  stroke="#fff"
-                  stroke-width="8"
-                  fill="none"
-                  stroke-linecap="round"
-                />
-              </svg>
+              <>
+                {(theme?.imgUrl && theme.imgUrl !== '') ?
+                  <div className="p-3.5">
+                    <img className="" src={theme.imgUrl} />
+                  </div> :
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="#fff"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white block border-gray-200 align-middle"
+                  >
+                    <path
+                      d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"
+                      className="border-gray-200"
+                    ></path>
+                  </svg>
+                }
+              </>
+
             )}
           </button>
         </>
       )}
-    </>
+    </div>
   );
 }
 
