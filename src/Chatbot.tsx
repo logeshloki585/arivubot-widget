@@ -69,7 +69,7 @@ const Chatbot: React.FC = () => {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement> | FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     if (message.trim() === '') return;
 
@@ -253,7 +253,11 @@ const Chatbot: React.FC = () => {
                   onChange={handleMessageChange}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
-                      handleSubmit(e);
+                      handleSubmit({
+                        ...e,
+                        currentTarget: e.currentTarget.closest('form') as HTMLFormElement,
+                        target: e.currentTarget.closest('form') as HTMLFormElement,
+                      } as FormEvent<HTMLFormElement>);
                     }
                   }}
                   maxLength={8000}
