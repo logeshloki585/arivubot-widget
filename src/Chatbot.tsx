@@ -41,7 +41,6 @@ const Chatbot: React.FC = () => {
   }, [messages]);
   useEffect(() => {
     setLoading(true);
-    console.log(params)
     if (params.userID && params.apiKey) {
 
       const fetchChatHistory = async () => {
