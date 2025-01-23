@@ -6,27 +6,32 @@ const Chatbot: React.FC = () => {
   const [isBotReplying, setIsBotReplying] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [theme, setTheme] = useState({
-    fontSize: "text-lg",
-    fontColor: "#ff992c",
-    fontStyle: "font-sans",
-    name: "",
-    desc: "",
-    headerAlign: "justify-center",
-    bgColor: "#fff",
-    innerButtonColor: "",
-    outerButtonColor: "",
-    userChatBg: "",
-    botChatBg: "",
-    imgUrl: 'https://static.vecteezy.com/system/resources/previews/008/296/267/non_2x/colorful-swirl-logo-design-concept-illustration-vector.jpg',
-    logoPosition: 'bottom-left',
-    logoBottomPosition: '16'
+  const [params, setParams] = useState({
+    userID: '',
+    apiKey: '',
+    imgUrl: '',
+    desc: '',
+    name: '',
+    fontSize: '',
+    innerButtonColor: '',
+    outerButtonColor: '',
+    botChatBg: '',
   });
 
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const userID: any = urlParams.get('userId');
-  const apiKey: any = urlParams.get('apiKey');
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    setParams({
+      userID: urlParams.get('userId') || '',
+      apiKey: urlParams.get('apiKey') || '',
+      imgUrl: urlParams.get('imgUrl') || '',
+      desc: urlParams.get('desc') || '',
+      name: urlParams.get('name') || '',
+      fontSize: urlParams.get('fontSize') || '',
+      innerButtonColor: urlParams.get('innerButtonColor') || '',
+      outerButtonColor: urlParams.get('outerButtonColor') || '',
+      botChatBg: urlParams.get('botChatBg') || '',
+    });
+  }, []);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -36,22 +41,21 @@ const Chatbot: React.FC = () => {
   }, [messages]);
   useEffect(() => {
     setLoading(true);
-    if (userID && apiKey) {
+    console.log(params)
+    if (params.userID && params.apiKey) {
+
       const fetchChatHistory = async () => {
         try {
           const response = await fetch(
-            `https://sr.adrig.co.in/chatlaps/chathistory?userid=${userID}&chatbotid=${apiKey}`
+            `https://sr.adrig.co.in/chatlaps/chathistory?userid=${params.userID}&chatbotid=${params.apiKey}`
           );
           const data = await response.json();
-          if (data.data !== null) {
+          if (data.data) {
             const convertedData = data.data.flatMap((item: { data: { user: string; bot: string; }; }) => [
               { sender: 'user', text: item.data.user.trim() },
               { sender: 'chatbot', text: item.data.bot.trim() }
             ]);
             setMessages([...messages, ...convertedData]);
-          }
-          if (data.details) {
-            setTheme(data.details);
           }
         } catch (error) {
           console.error("Error fetching chat history:", error);
@@ -62,7 +66,7 @@ const Chatbot: React.FC = () => {
       fetchChatHistory();
     }
 
-  }, []);
+  }, [params]);
 
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setMessage(event.target.value);
@@ -87,8 +91,8 @@ const Chatbot: React.FC = () => {
           },
           body: JSON.stringify({
             question: message,
-            userid: userID,
-            chatbotid: apiKey,
+            userid: params.userID,
+            chatbotid: params.apiKey,
           }),
         }
       );
@@ -142,19 +146,20 @@ const Chatbot: React.FC = () => {
           <header
             className="relative flex items-center justify-between px-5 text-zinc-50"
             style={{
-              background:
-                'linear-gradient(0deg, rgba(255, 255, 255, 0) 29.14%, rgba(20, 15, 15, 0.16) 100%),#000000',
+              background: params.outerButtonColor
+              // `linear-gradient(0deg, ${outerButtonColor ? outerButtonColor : 'rgba(255, 255, 255, 0)'} 29.14%, rgba(20, 15, 15, 0.16) 100%), #000000`,
             }}
           >
             <div className="my-4 flex h-10 items-center">
               <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full mr-2 size-10 border-white/[0.08] group-data-[theme=dark]:border">
                 <img
-                  src={theme.imgUrl}
+                  src={params.imgUrl}
                   alt="Chatbase AI Avatar"
                 />
               </span>
               <div className="flex flex-col justify-center gap-px">
-                <h1 className="font-semibold text-sm">Chatbase AI</h1>
+                <h1 className="font-semibold text-sm">{params.name}</h1>
+                {params.desc && <p>{params.desc}</p>}
               </div>
             </div>
           </header>
@@ -192,13 +197,14 @@ const Chatbot: React.FC = () => {
                         <div
                           style={{
                             borderRadius: msg.sender === 'user' ? '20px 20px 5px 20px' : '20px 20px 20px 5px',
+
                           }}
                           className={`hyphens-auto break-words  text-left text-sm leading-5 antialiased px-5 py-4 bg-zinc-200/50 text-zinc-800 group-data-[theme=dark]:bg-zinc-800/80 group-data-[theme=dark]:text-zinc-300 ${msg.sender === 'user'
                             ? 'bg-blue-500 text-white self-end rounded-t-[20px] rounded-r-[20px]'
                             : 'self-start'
                             }`}
                         >
-                          <p>{msg.text}</p>
+                          <p style={{ fontSize: `${params.fontSize}px` }}>{msg.text}</p>
                         </div>
                       </div>
                     </div>
