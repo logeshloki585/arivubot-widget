@@ -150,12 +150,12 @@ const Chatbot: React.FC = () => {
             }}
           >
             <div className="my-4 flex h-10 items-center">
-              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full mr-2 size-10 border-white/[0.08] group-data-[theme=dark]:border">
+              {params.imgUrl && <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full mr-2 size-10 border-white/[0.08] group-data-[theme=dark]:border">
                 <img
                   src={params.imgUrl}
                   alt="Chatbase AI Avatar"
                 />
-              </span>
+              </span>}
               <div className="flex flex-col justify-center gap-px">
                 <h1 className="font-semibold text-sm">{params.name}</h1>
                 {params.desc && <p>{params.desc}</p>}
