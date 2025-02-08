@@ -32,7 +32,7 @@ const Chatbot: React.FC = () => {
       botChatBg: urlParams.get('botChatBg') || '',
     });
   }, []);
-
+  console.log(`https://sr.adrig.co.in/chatlaps/chathistory?userid=${params.userID}&chatbotid=${params.apiKey}`)
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
